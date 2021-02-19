@@ -2,10 +2,12 @@ import { HttpBody, HttpResponse } from "./types";
 
 export const normalizeResponse = async (response: Response): Promise<HttpResponse> => {
   // Process body
-  let body: HttpBody = undefined;
+  let body: HttpBody;
   try {
     body = await response.json();
-  } catch {}
+  } catch {
+    // Do nothing
+  }
 
   if (response.ok) {
     return {
