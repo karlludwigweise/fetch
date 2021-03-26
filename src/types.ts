@@ -12,6 +12,7 @@ export interface HttpResponse {
 }
 
 export type HttpBody = { [key: string]: any } | undefined;
+export type UrlParams = { [key: string]: string | undefined };
 
 export interface ResponseError {
   ok: boolean;

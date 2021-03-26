@@ -1,6 +1,7 @@
 import { DEFAULT_STORAGE_NAMES } from "@klw/localstorage";
 import storage from "@klw/localstorage";
 import { normalizeResponse, catchResponse } from "./httpErrors";
+import { UrlParams } from "./types";
 
 export function getHeaders() {
   const defaultHeaders = {
@@ -11,6 +12,19 @@ export function getHeaders() {
     ...defaultHeaders,
   };
 }
+
+export const setParams = (route: string, params: UrlParams) => {
+  const list: string[] = [];
+  Object.keys(params).forEach((key) => {
+    if (params[key]) {
+      list.push(`${key}=${params[key]}`);
+    }
+  });
+  if (list.length > 0) {
+    return `${route}?${list.join("")}`;
+  }
+  return route;
+};
 
 export function get(path: string, init: RequestInit = {}) {
   const options = {
