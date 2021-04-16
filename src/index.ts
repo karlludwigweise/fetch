@@ -75,8 +75,8 @@ export function postFile(
   },
 ): Promise<{ ok: boolean; error?: ProgressEvent<EventTarget> }> {
   const onModifyProgress = function (this: XMLHttpRequest, event: ProgressEvent<EventTarget>) {
-    if (event.type === "progress") {
-      options?.onProgress && options?.onProgress((event.loaded * 100) / event.total);
+    if (event.type === "progress" && options?.onProgress) {
+      options.onProgress((event.loaded * 100) / event.total);
     }
   };
 
@@ -92,7 +92,7 @@ export function postFile(
     };
 
     // Add success resolver
-    xhr.onload = function () {
+    xhr.onload = () => {
       resolve({ ok: true });
     };
 
