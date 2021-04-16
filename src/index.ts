@@ -66,3 +66,39 @@ export function del(path: string, init: RequestInit = {}) {
 
   return fetch(path, options).then(normalizeResponse).catch(catchResponse);
 }
+
+export function postFile(
+  url: string,
+  file: any,
+  options?: {
+    onProgress?: (p: number) => void;
+  },
+): Promise<{ ok: boolean; error?: ProgressEvent<EventTarget> }> {
+  const onModifyProgress = function (this: XMLHttpRequest, event: ProgressEvent<EventTarget>) {
+    if (event.type === "progress") {
+      options?.onProgress && options?.onProgress((event.loaded * 100) / event.total);
+    }
+  };
+
+  return new Promise((resolve) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const xhr = new XMLHttpRequest();
+    xhr.open(`POST`, url);
+
+    // Add error resolver
+    xhr.onerror = function (this: XMLHttpRequest, error: ProgressEvent<EventTarget>) {
+      resolve({ ok: false, error });
+    };
+
+    // Add success resolver
+    xhr.onload = function () {
+      resolve({ ok: true });
+    };
+
+    // Add onProgress callback
+    if (xhr.upload && options?.onProgress) xhr.upload.onprogress = onModifyProgress;
+
+    xhr.send(formData);
+  });
+}
