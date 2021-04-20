@@ -12,7 +12,7 @@ export interface HttpResponse {
 }
 
 export type HttpBody = { [key: string]: any } | undefined;
-export type UrlParams = { [key: string]: string | undefined };
+export type UrlParams = { [key: string]: string | number | undefined };
 
 export interface ResponseError {
   ok: boolean;
