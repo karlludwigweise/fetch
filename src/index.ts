@@ -21,7 +21,7 @@ export const setParams = (route: string, params: UrlParams) => {
     }
   });
   if (list.length > 0) {
-    return `${route}?${list.join("")}`;
+    return `${route}?${list.join("&")}`;
   }
   return route;
 };
