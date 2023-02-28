@@ -87,6 +87,8 @@ export function postFile(
     const xhr = new XMLHttpRequest();
     xhr.open(`POST`, url);
 
+    xhr.setRequestHeader("Authorization", `Bearer ${storage.get(DEFAULT_STORAGE_NAMES.TOKEN)}`);
+
     // Add error resolver
     xhr.onerror = function (this: XMLHttpRequest, error: ProgressEvent<EventTarget>) {
       resolve({ ok: false, error });
