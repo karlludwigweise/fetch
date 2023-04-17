@@ -35,6 +35,17 @@ export function get(path: string, init: RequestInit = {}) {
   return fetch(path, options).then(normalizeResponse).catch(catchResponse);
 }
 
+export function patch(path: string, body: any = {}, init: RequestInit = {}) {
+  const options = {
+    headers: getHeaders(),
+    ...init,
+    method: "PATCH",
+    body: JSON.stringify(body),
+  };
+
+  return fetch(path, options).then(normalizeResponse).catch(catchResponse);
+}
+
 export function post(path: string, body: any = {}, init: RequestInit = {}) {
   const options = {
     headers: getHeaders(),
